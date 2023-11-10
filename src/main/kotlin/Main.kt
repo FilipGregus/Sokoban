@@ -6,19 +6,26 @@ fun main() {
     val gameObjects: MutableList<GameObject> = mutableListOf()
     val gameController = GameController(correctPoints,gameObjects)
 
-    readInput(correctPoints, gameObjects)
+
+    val (width,height) = readInput(correctPoints, gameObjects)
+
+    gameController.drawBoard(width,height)
 
     var input = readln().lowercase()
 
     while (input.isNotEmpty())
     {
         gameController.makeMove(input)
-
+        gameController.drawBoard(width,height)
+        if(gameController.checkWin())
+        {
+            println("You win!!!!")
+        }
         input = readln().lowercase()
     }
 }
 
-fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameObject>)
+fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameObject>): Pair<Int, Int>
 {
     val fileName = "src/main/resources/board.txt"
     val lines: List<String> = File(fileName).readLines()
@@ -26,7 +33,7 @@ fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameOb
 
     lines.forEach {
         val line = it
-        
+
         for(i in 0 until  line.length )
         {
             when(line[i])
@@ -45,5 +52,7 @@ fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameOb
 
         y++
     }
+
+    return Pair(lines[0].length, lines.size)
 }
 
