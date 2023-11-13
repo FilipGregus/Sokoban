@@ -1,46 +1,44 @@
-class GameObject(private val locatin : Point, var objectType: ObjectType) {
+class GameObject(private val location: Point, var objectType: ObjectType)
+{
 
     fun getLocation(): Point
     {
-        return locatin
+        return location
     }
 
-    fun CompareLocation(X:Int,Y:Int): Boolean
+    fun compareLocation(x: Int, y: Int): Boolean
     {
-        return this.locatin.X ==X && this.locatin.Y ==Y
+        return this.location.X == x && this.location.Y == y
     }
 
-    fun move(move: String ,correctPoints: MutableList<Point>)
+    fun move(move: String, correctPoints: MutableList<Point>)
     {
         var delX = 0
         var delY = 0
-        
-        
-        when(move)
+
+        when (move)
         {
-            "w"->delY = -1
-            "a"->delX = -1
-            "d"->delX = 1
-            "s"->delY = 1
+            "w" -> delY = -1
+            "a" -> delX = -1
+            "d" -> delX = 1
+            "s" -> delY = 1
         }
-        
-        if(objectType==ObjectType.Player)
+
+        if (objectType == ObjectType.Player)
         {
-            locatin.X += delX
-            locatin.Y += delY
-        }
-        else if (objectType != ObjectType.Wall)
+            location.X += delX
+            location.Y += delY
+        } else if (objectType != ObjectType.Wall)
         {
-            locatin.X += delX
-            locatin.Y += delY
-            
-            if((correctPoints.find { e->e.CompareLocation(this.locatin.X,this.locatin.Y) })!=null)
+            location.X += delX
+            location.Y += delY
+
+            if ((correctPoints.find { e -> e.compareLocation(this.location.X, this.location.Y) }) != null)
             {
-                this.objectType=ObjectType.CorrectBox
-            }
-            else
+                this.objectType = ObjectType.CorrectBox
+            } else
             {
-                this.objectType=ObjectType.Box
+                this.objectType = ObjectType.Box
             }
         }
     }

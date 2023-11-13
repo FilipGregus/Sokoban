@@ -1,6 +1,7 @@
-class Point (var X:Int, var Y:Int) {
-    fun CompareLocation(X:Int,Y:Int): Boolean
+class Point(var X: Int, var Y: Int)
+{
+    fun compareLocation(x: Int, y: Int): Boolean
     {
-        return this.X ==X && this.Y ==Y
+        return this.X == x && this.Y == y
     }
 }

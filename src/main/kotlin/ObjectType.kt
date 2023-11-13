@@ -1,3 +1,4 @@
-enum class ObjectType {
+enum class ObjectType
+{
     Player, Wall, Box, CorrectBox
 }

@@ -1,44 +1,58 @@
-class GameController (val correctPoints: MutableList<Point>, var gameObjects: MutableList<GameObject>) {
+class GameController(private val correctPoints: MutableList<Point>, private var gameObjects: MutableList<GameObject>)
+{
     private var player = gameObjects.find { e -> e.objectType == ObjectType.Player }
 
 
-    fun makeMove(move: String) {
+    fun makeMove(move: String)
+    {
         player = gameObjects.find { e -> e.objectType == ObjectType.Player }
         var delX = 0
         var delY = 0
-        when (move) {
-            "w" -> {
+
+        when (move)
+        {
+            "w" ->
+            {
                 delY = 1
             }
 
-            "a" -> {
+            "a" ->
+            {
                 delX = 1
             }
 
-            "d" -> {
-              delX = -1
+            "d" ->
+            {
+                delX = -1
             }
 
-            "s" -> {
+            "s" ->
+            {
                 delY = -1
             }
+
             else -> System.err.println("wrong input")
         }
 
-        val element =
-            gameObjects.find { e -> (player?.CompareLocation(e.getLocation().X + delX, e.getLocation().Y + delY)) == true }
+        val element = gameObjects.find { e ->
+            (player?.compareLocation(
+                e.getLocation().X + delX, e.getLocation().Y + delY
+            )) == true
+        }
 
-        if (element != null) {
+        if (element != null)
+        {
             if (element.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                    (player?.CompareLocation(
-                        e.getLocation().X + delX*2,
-                        e.getLocation().Y + delY*2
+                    (player?.compareLocation(
+                        e.getLocation().X + delX * 2, e.getLocation().Y + delY * 2
                     )) == true
-                }) == null) {
+                }) == null)
+            {
                 element.move(move, correctPoints)
                 player?.move(move, correctPoints)
             }
-        } else {
+        } else
+        {
 
             (gameObjects.find { e -> e == player })?.move(move, correctPoints)
         }
@@ -48,47 +62,39 @@ class GameController (val correctPoints: MutableList<Point>, var gameObjects: Mu
     {
         println("--------------------\n")
 
-        for (h in 0 until height)
+        for (h in 0..<height)
         {
-            for (w in 0 until width)
+            for (w in 0..<width)
             {
-                val gameObject = gameObjects.find { e -> e.CompareLocation(w,h)}
-                if(gameObject!=null)
+                val gameObject = gameObjects.find { e -> e.compareLocation(w, h) }
+                if (gameObject != null)
                 {
                     printType(gameObject.objectType)
-                }
-                else if((correctPoints.find { e -> e.CompareLocation(w,h)}) !=null)
+                } else if ((correctPoints.find { e -> e.compareLocation(w, h) }) != null)
                 {
                     print("O")
-                }
-                else
+                } else
                 {
                     print(" ")
                 }
             }
-
             println()
         }
     }
 
     fun checkWin(): Boolean
     {
-        if ((gameObjects.find { e -> e.objectType==ObjectType.Box})==null)
-        {
-            return true
-        }
-
-        return false
+        return (gameObjects.find { e -> e.objectType == ObjectType.Box }) == null
     }
 
     private fun printType(objectType: ObjectType)
     {
-        when(objectType)
+        when (objectType)
         {
-            ObjectType.Player-> print("P")
-            ObjectType.Wall-> print("X")
-            ObjectType.Box-> print("B")
-            ObjectType.CorrectBox-> print("✓")
+            ObjectType.Player -> print("P")
+            ObjectType.Wall -> print("X")
+            ObjectType.Box -> print("B")
+            ObjectType.CorrectBox -> print("✓")
         }
     }
 }

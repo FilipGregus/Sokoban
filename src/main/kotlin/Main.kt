@@ -1,22 +1,22 @@
 import java.io.File
 
-fun main() {
-
+fun main()
+{
     val correctPoints: MutableList<Point> = mutableListOf()
     val gameObjects: MutableList<GameObject> = mutableListOf()
-    val gameController = GameController(correctPoints,gameObjects)
+    val gameController = GameController(correctPoints, gameObjects)
 
-    val (width,height) = readInput(correctPoints, gameObjects)
+    val (width, height) = readInput(correctPoints, gameObjects)
 
-    gameController.drawBoard(width,height)
+    gameController.drawBoard(width, height)
 
     var input = readln().lowercase()
 
     while (input.isNotEmpty())
     {
         gameController.makeMove(input)
-        gameController.drawBoard(width,height)
-        if(gameController.checkWin())
+        gameController.drawBoard(width, height)
+        if (gameController.checkWin())
         {
             println("You win!!!!")
         }
@@ -33,18 +33,20 @@ fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameOb
     lines.forEach {
         val line = it
 
-        for(i in 0 until  line.length )
+        for (i in line.indices)
         {
-            when(line[i])
+            when (line[i])
             {
-                'P'->gameObjects.add(GameObject(Point(i,y),ObjectType.Player))
-                'X'->gameObjects.add(GameObject(Point(i,y),ObjectType.Wall))
-                'B'->gameObjects.add(GameObject(Point(i,y),ObjectType.Box))
-                '✓'->{
-                    gameObjects.add(GameObject(Point(i,y),ObjectType.CorrectBox))
-                    correctPoints.add(Point(i,y))
+                'P' -> gameObjects.add(GameObject(Point(i, y), ObjectType.Player))
+                'X' -> gameObjects.add(GameObject(Point(i, y), ObjectType.Wall))
+                'B' -> gameObjects.add(GameObject(Point(i, y), ObjectType.Box))
+                '✓' ->
+                {
+                    gameObjects.add(GameObject(Point(i, y), ObjectType.CorrectBox))
+                    correctPoints.add(Point(i, y))
                 }
-                'O'->correctPoints.add(Point(i,y))
+
+                'O' -> correctPoints.add(Point(i, y))
             }
         }
         y++
