@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 .idea
 Sokoban.iml
+src/main/kotlin/META-INF
 
 ### Eclipse ###
 .apt_generated
