@@ -1,4 +1,4 @@
-class GameObject( val locatin : Point, var objectType: ObjectType) {
+class GameObject(private val locatin : Point, var objectType: ObjectType) {
 
     fun getLocation(): Point
     {

@@ -6,7 +6,6 @@ fun main() {
     val gameObjects: MutableList<GameObject> = mutableListOf()
     val gameController = GameController(correctPoints,gameObjects)
 
-
     val (width,height) = readInput(correctPoints, gameObjects)
 
     gameController.drawBoard(width,height)
@@ -46,13 +45,9 @@ fun readInput(correctPoints: MutableList<Point>, gameObjects: MutableList<GameOb
                     correctPoints.add(Point(i,y))
                 }
                 'O'->correctPoints.add(Point(i,y))
-
             }
         }
-
         y++
     }
-
     return Pair(lines[0].length, lines.size)
 }
-

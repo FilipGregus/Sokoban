@@ -1,96 +1,46 @@
-class GameController (val correctPoints: MutableList<Point>,var gameObjects: MutableList<GameObject>) {
+class GameController (val correctPoints: MutableList<Point>, var gameObjects: MutableList<GameObject>) {
     private var player = gameObjects.find { e -> e.objectType == ObjectType.Player }
 
 
     fun makeMove(move: String) {
         player = gameObjects.find { e -> e.objectType == ObjectType.Player }
+        var delX = 0
+        var delY = 0
         when (move) {
             "w" -> {
-                val upElement =
-                    gameObjects.find { e -> (player?.CompareLocation(e.locatin.X, e.locatin.Y + 1)) == true }
-
-                if (upElement != null) {
-                    if (upElement.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                            (player?.CompareLocation(
-                                e.locatin.X,
-                                e.locatin.Y + 2
-                            )) == true
-                        }) == null) {
-                        upElement.move(move, correctPoints)
-                        player?.move(move, correctPoints)
-                    }
-                } else {
-
-                    (gameObjects.find { e -> e == player })?.move(move, correctPoints)
-                }
+                delY = 1
             }
 
             "a" -> {
-                val leftElement =
-                    gameObjects.find { e -> (player?.CompareLocation(e.locatin.X + 1, e.locatin.Y)) == true }
-
-                if (leftElement != null) {
-                    if (leftElement.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                            (player?.CompareLocation(
-                                e.locatin.X + 2,
-                                e.locatin.Y
-                            )) == true
-                        }) == null) {
-                        leftElement.move(move, correctPoints)
-                        player?.move(move, correctPoints)
-                    }
-                } else {
-
-                    (gameObjects.find { e -> e == player })?.move(move, correctPoints)
-                }
+                delX = 1
             }
 
             "d" -> {
-                val rightElement =
-                    gameObjects.find { e -> (player?.CompareLocation(e.locatin.X - 1, e.locatin.Y)) == true }
-
-                if (rightElement != null) {
-                    if (rightElement.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                            (player?.CompareLocation(
-                                e.locatin.X - 2,
-                                e.locatin.Y
-                            )) == true
-                        }) == null) {
-                        rightElement.move(move, correctPoints)
-                        player?.move(move, correctPoints)
-                    }
-                } else {
-
-                    (gameObjects.find { e -> e == player })?.move(move, correctPoints)
-                }
+              delX = -1
             }
 
             "s" -> {
-                val downElement =
-                    gameObjects.find { e -> (player?.CompareLocation(e.locatin.X, e.locatin.Y - 1)) == true }
-
-                if (downElement != null) {
-                    if (downElement.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                            (player?.CompareLocation(
-                                e.locatin.X,
-                                e.locatin.Y - 2
-                            )) == true
-                        }) == null)
-                        if (downElement.objectType != ObjectType.Wall && (gameObjects.find { e ->
-                                (player?.CompareLocation(
-                                    e.locatin.X,
-                                    e.locatin.Y - 2
-                                )) == true
-                            }) == null) {
-                            downElement.move(move, correctPoints)
-                            player?.move(move, correctPoints)
-                        }
-                } else {
-
-                    (gameObjects.find { e -> e == player })?.move(move, correctPoints)
-                }
+                delY = -1
             }
             else -> System.err.println("wrong input")
+        }
+
+        val element =
+            gameObjects.find { e -> (player?.CompareLocation(e.getLocation().X + delX, e.getLocation().Y + delY)) == true }
+
+        if (element != null) {
+            if (element.objectType != ObjectType.Wall && (gameObjects.find { e ->
+                    (player?.CompareLocation(
+                        e.getLocation().X + delX*2,
+                        e.getLocation().Y + delY*2
+                    )) == true
+                }) == null) {
+                element.move(move, correctPoints)
+                player?.move(move, correctPoints)
+            }
+        } else {
+
+            (gameObjects.find { e -> e == player })?.move(move, correctPoints)
         }
     }
 
